@@ -1,0 +1,11 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+.streamlit/secrets.toml
+wine_quality.db
+models/*.joblib
+models/model_metrics.csv
+data/winequality-red.csv
+data/winequality-white.csv
