@@ -101,3 +101,6 @@ def train_or_load_model(data, force_train=False):
     pd.DataFrame([metrics]).to_csv(METRICS_PATH, index=False)
 
     return model, metrics
+
+print("Wine dataset counts:")
+print(data["wine_type"].value_counts())
