@@ -21,7 +21,7 @@ try:
     data, model, metrics = setup_project()
 except Exception as exc:
     st.error("The app could not prepare its dataset or model.")
-    st.write("Check your internet connection on first run, then try again.")
+    st.write("Check that both wine CSV files are present in the project folder.")
     st.exception(exc)
     st.stop()
 
@@ -160,7 +160,7 @@ with tab_history:
 with tab_about:
     st.subheader("How the application works")
     st.markdown("""
-    1. Downloads the public red and white Wine Quality datasets on first run.
+    1. Loads the red and white Wine Quality CSV datasets from the project folder.
     2. Combines the records and adds a `wine_type` field.
     3. Trains a Random Forest regression model using the 11 numeric chemistry features.
     4. Evaluates the model on a held-out test set using MAE and R².
