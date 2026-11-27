@@ -7,6 +7,66 @@ from train_model import ensure_dataset, train_or_load_model, FEATURES, TARGET, D
 
 st.set_page_config(page_title="Wine Quality Chemistry Explorer & Grader", page_icon="🧪", layout="wide")
 
+st.markdown("""
+<style>
+
+/* Main background */
+.stApp {
+    background-color: #F3EFFA;
+}
+
+/* Main headings */
+h1, h2, h3 {
+    color: #493B63 !important;
+}
+
+/* Normal text */
+p, label {
+    color: #493B63;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background-color: #E8DFF3;
+}
+
+/* Buttons */
+.stButton > button,
+.stFormSubmitButton > button {
+    background-color: #A99AC8;
+    color: white;
+    border-radius: 10px;
+    border: none;
+}
+
+/* Button hover */
+.stButton > button:hover,
+.stFormSubmitButton > button:hover {
+    background-color: #8875AE;
+    color: white;
+}
+
+/* Metric cards */
+[data-testid="stMetric"] {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #DCD1F0;
+}
+
+/* Tabs */
+.stTabs [data-baseweb="tab"] {
+    color: #493B63;
+}
+
+/* Alerts */
+[data-testid="stAlert"] {
+    border-radius: 10px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 st.title("🧪 Wine Quality Chemistry Explorer & Grader")
 st.caption("Explore red and white wine chemistry, predict an estimated quality score, and review saved predictions.")
 
