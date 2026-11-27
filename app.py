@@ -7,71 +7,114 @@ from train_model import ensure_dataset, train_or_load_model, FEATURES, TARGET, D
 
 st.set_page_config(page_title="Wine Quality Chemistry Explorer & Grader", page_icon="🧪", layout="wide")
 
+
 st.markdown("""
 <style>
 
 /* Main background */
 .stApp {
-    background-color: #FFF1E9;
+    background-color: #FCEEF5;
+    color: #493B52;
 }
 
 /* Main headings */
 h1, h2, h3 {
-    color: #704A3C !important;
+    color: #76516D !important;
 }
 
-/* Normal text */
+/* Paragraphs and labels */
 p, label {
-    color: #49352D;
+    color: #493B52 !important;
 }
 
 /* Sidebar */
-[data-testid="stSidebar"] {
-    background-color: #F6D5C3;
+section[data-testid="stSidebar"] {
+    background-color: #EDE4F8;
+}
+
+/* Input boxes */
+div[data-testid="stNumberInput"] input,
+div[data-testid="stTextInput"] input {
+    background-color: #FFFFFF !important;
+    color: #493B52 !important;
+    -webkit-text-fill-color: #493B52 !important;
+    border: 1px solid #D9C4F0 !important;
+    border-radius: 8px !important;
+}
+
+/* Dropdowns */
+div[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div {
+    background-color: #FFFFFF !important;
+    color: #493B52 !important;
+    border-color: #D9C4F0 !important;
 }
 
 /* Buttons */
 .stButton > button,
 .stFormSubmitButton > button {
-    background-color: #D9A58C;
-    color: #FFFFFF;
-    border-radius: 10px;
-    border: none;
-    font-weight: 600;
-}
-
-/* Button hover */
-.stButton > button:hover,
-.stFormSubmitButton > button:hover {
-    background-color: #B98268;
-    color: #FFFFFF;
+    background-color: #D9C4F0 !important;
+    color: #493B52 !important;
+    border: 1px solid #C4A9E5 !important;
+    border-radius: 10px !important;
+    font-weight: bold !important;
 }
 
 /* Metric cards */
-[data-testid="stMetric"] {
-    background-color: #FFFCF7;
+div[data-testid="stMetric"] {
+    background-color: #FFFFFF;
+    border: 1px solid #F3C6D8;
     padding: 15px;
     border-radius: 12px;
-    border: 1px solid #E8C5B2;
 }
 
 /* Tabs */
-.stTabs [data-baseweb="tab"] {
-    color: #704A3C;
-}
-
-/* Selected tab */
-.stTabs [aria-selected="true"] {
-    color: #B98268;
+button[data-baseweb="tab"] {
+    color: #76516D !important;
 }
 
 /* Alerts */
-[data-testid="stAlert"] {
+div[data-testid="stAlert"] {
+    background-color: #F9E1EC;
+    border-radius: 10px;
+}
+
+/* Dataframe container */
+div[data-testid="stDataFrame"] {
+    background-color: #FFFFFF;
     border-radius: 10px;
 }
 
 </style>
 """, unsafe_allow_html=True)
+
+
+def apply_pink_purple_theme(fig):
+    fig.update_layout(
+        template="plotly_white",
+        paper_bgcolor="#FCEEF5",
+        plot_bgcolor="#FFFFFF",
+        font=dict(color="#493B52"),
+        title_font=dict(color="#76516D"),
+        legend=dict(
+            font=dict(color="#493B52"),
+            bgcolor="#FFFFFF"
+        ),
+        margin=dict(l=30, r=20, t=60, b=30)
+    )
+
+    fig.update_xaxes(
+        gridcolor="#F0DFEA",
+        zerolinecolor="#D9C4F0"
+    )
+
+    fig.update_yaxes(
+        gridcolor="#F0DFEA",
+        zerolinecolor="#D9C4F0"
+    )
+
+    return fig
+
 
 st.title("🧪 Wine Quality Chemistry Explorer & Grader")
 st.caption("Explore red and white wine chemistry, predict an estimated quality score, and review saved predictions.")
@@ -192,11 +235,14 @@ with tab_explore:
             fig = px.histogram(filtered, x="quality", color="wine_type", barmode="overlay",
                                title="Recorded quality-score distribution",
                                labels={"quality": "Recorded quality score", "wine_type": "Wine color"})
+
+            apply_pink_purple_theme(fig)
             st.plotly_chart(fig, use_container_width=True)
         with right:
             fig = px.box(filtered, x="wine_type", y="alcohol", color="wine_type",
                          title="Alcohol measurements by wine color",
                          labels={"wine_type": "Wine color", "alcohol": "Alcohol (% by volume)"})
+            apply_pink_purple_theme(fig)
             st.plotly_chart(fig, use_container_width=True)
 
         feature_choice = st.selectbox("Explore a chemical feature", FEATURES, index=FEATURES.index("alcohol"))
@@ -204,6 +250,7 @@ with tab_explore:
                          x=feature_choice, y="quality", color="wine_type",
                          opacity=0.65, title=f"{feature_choice.title()} vs recorded quality",
                          labels={"quality": "Recorded quality score", "wine_type": "Wine color"})
+        apply_pink_purple_theme(fig)
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(filtered.head(100), use_container_width=True, hide_index=True)
 
@@ -218,6 +265,7 @@ with tab_history:
                          hover_data=["rounded_score", "grade"],
                          title="Prediction history over time",
                          labels={"created_at": "Time", "predicted_score": "Predicted score", "wine_type": "Wine color"})
+        apply_pink_purple_theme(fig)
         st.plotly_chart(fig, use_container_width=True)
         st.download_button("Download prediction history as CSV",
                            data=history.to_csv(index=False).encode("utf-8"),
