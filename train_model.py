@@ -52,6 +52,9 @@ def ensure_dataset():
     data = pd.concat([red, white], ignore_index=True)
     data = data.dropna(subset=FEATURES + [TARGET])
 
+    print("Red records:", len(data[data["wine_type"] == "Red"]))
+    print("White records:", len(data[data["wine_type"] == "White"]))
+    print("Total records:", len(data))
     return data.reset_index(drop=True)
 
 
