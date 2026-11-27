@@ -102,5 +102,4 @@ def train_or_load_model(data, force_train=False):
 
     return model, metrics
 
-print("Wine dataset counts:")
-print(data["wine_type"].value_counts())
+
